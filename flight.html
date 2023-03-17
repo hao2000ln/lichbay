@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <title>HIHI</title>
+        <meta charset="utf-8">
+    </head>
+
+    <body>
+        <h1>Tính toán ngày bắt đầu và ngày kết thúc của một tuần trong một năm cụ thể</h1>
+        <form>
+            <label for="year">Nhập năm:</label>
+            <input type="number" id="year" name="year" value="2023" min="1900" max="2099">
+
+            <label for="week">Nhập tuần:</label>
+            <input type="number" id="week" name="week" value="12" min="1" max="53">
+
+            <button type="button" onclick="calculateWeekDates()">Tính toán</button>
+        </form>
+
+        <p id="result"></p>
+
+        <script>
+            function getWeekDates(year, week) {
+                // Tính toán ngày đầu tiên của năm
+                var date = new Date(year, 0, 1);
+
+                // Tính toán ngày bắt đầu của tuần
+                var weekStart = new Date(date.getTime());
+                weekStart.setDate(date.getDate() + (week - 1) * 7 - date.getDay() + 1);
+
+                // Tính toán ngày kết thúc của tuần
+                var weekEnd = new Date(weekStart.getTime());
+                weekEnd.setDate(weekStart.getDate() + 6);
+
+                // Trả về kết quả dưới dạng một đối tượng
+                return {
+                    start: weekStart,
+                    end: weekEnd
+                };
+            }
+            function calculateWeekDates() {
+                var year = document.getElementById("year").value;
+                var week = document.getElementById("week").value;
+                var weekDates = getWeekDates(year, week);
+
+                var startDate = weekDates.start.toLocaleDateString();
+                var endDate = weekDates.end.toLocaleDateString();
+
+                var weekdays = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+                var startWeekday = weekdays[weekDates.start.getDay()];
+                var endWeekday = weekdays[weekDates.end.getDay()];
+
+                document.getElementById("result").innerHTML = "Tuần " + week + " năm " + year + " start: " + startDate + " (" + startWeekday + ") và end " + endDate + " (" + endWeekday + ").";
+            }
+
+
+        </script>
+    </body>
+
+</html>
